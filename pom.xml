@@ -21,7 +21,7 @@
         <java.version>1.8</java.version>
         <docker.image.prefix>336809125027.dkr.ecr.us-east-2.amazonaws.com/helloworld_boot</docker.image.prefix>
 	  <docker.plugin.version>1.1.0</docker.plugin.version>
-	  <project.build.finalName>my-app-1.0-SNAPSHOT</project.build.finalName>
+	  <project.build.finalName>springio</project.build.finalName>
     </properties>
 
     <build>
