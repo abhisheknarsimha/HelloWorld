@@ -1,5 +1,29 @@
-FROM openjdk:8-jdk-alpine
-VOLUME /tmp
-ARG JAR_FILE=target/gs-spring-boot-docker-0.1.0.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+FROM node:9
+
+## Create base directory
+RUN mkdir /src
+
+## Specify the "working directory" for the rest of the Dockerfile
+WORKDIR /src
+
+## Install packages using NPM 5 (bundled with the node:9 image)
+COPY ./package.json /src/package.json
+COPY ./package-lock.json /src/package-lock.json
+RUN npm install --silent
+
+## Add application code
+COPY ./app /src/app
+COPY ./bin /src/bin
+COPY ./public /src/public
+
+## Add the nodemon configuration file
+COPY ./nodemon.json /src/nodemon.json
+
+## Set environment to "development" by default
+ENV NODE_ENV development
+
+## Allows port 3000 to be publicly available
+EXPOSE 3000
+
+## The command uses nodemon to run the application
+CMD ["node", "node_modules/.bin/nodemon", "-L", "bin/www"]
